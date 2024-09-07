@@ -1,0 +1,11 @@
+/workspaces/Rust-Simple-file-server/simple-file-server/target/debug/deps/librand_core-ae82fcd40f3fd933.rmeta: /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/lib.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/error.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/block.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/impls.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/le.rs
+
+/workspaces/Rust-Simple-file-server/simple-file-server/target/debug/deps/librand_core-ae82fcd40f3fd933.rlib: /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/lib.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/error.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/block.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/impls.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/le.rs
+
+/workspaces/Rust-Simple-file-server/simple-file-server/target/debug/deps/rand_core-ae82fcd40f3fd933.d: /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/lib.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/error.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/block.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/impls.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/le.rs
+
+/home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/lib.rs:
+/home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/error.rs:
+/home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/block.rs:
+/home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/impls.rs:
+/home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rand_core-0.4.2/src/le.rs:
