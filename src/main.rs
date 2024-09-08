@@ -84,6 +84,8 @@ fn generate_html_response(path: &str, stream: &mut std::net::TcpStream) -> std::
 "#.to_string();
 
     let base_path = Path::new(".").join(&path.trim_start_matches('/'));
+    println!("Attempting to access: {}", base_path.display());
+
 
     // Traversing directories
     if base_path.is_dir() {
