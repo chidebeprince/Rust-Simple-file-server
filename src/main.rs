@@ -171,4 +171,3 @@ fn get_content_type(path: &Path) -> String {
         _ => "application/octet-stream".to_string(),  // Default to binary if unknown
     }
 }
-

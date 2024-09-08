@@ -1,6 +1,7 @@
 [package]
 name = "simple-file-server"
 version = "0.1.0"
+author = "godbrand"
 edition = "2021"
 
 [dependencies]
