@@ -1,0 +1,10 @@
+/workspaces/Rust-Simple-file-server/simple-file-server/target/debug/deps/librustc_serialize-d52f4a17f5bfb06d.rmeta: /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustc-serialize-0.3.25/src/lib.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustc-serialize-0.3.25/src/serialize.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustc-serialize-0.3.25/src/collection_impls.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustc-serialize-0.3.25/src/base64.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustc-serialize-0.3.25/src/hex.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustc-serialize-0.3.25/src/json.rs
+
+/workspaces/Rust-Simple-file-server/simple-file-server/target/debug/deps/rustc_serialize-d52f4a17f5bfb06d.d: /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustc-serialize-0.3.25/src/lib.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustc-serialize-0.3.25/src/serialize.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustc-serialize-0.3.25/src/collection_impls.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustc-serialize-0.3.25/src/base64.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustc-serialize-0.3.25/src/hex.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustc-serialize-0.3.25/src/json.rs
+
+/home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustc-serialize-0.3.25/src/lib.rs:
+/home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustc-serialize-0.3.25/src/serialize.rs:
+/home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustc-serialize-0.3.25/src/collection_impls.rs:
+/home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustc-serialize-0.3.25/src/base64.rs:
+/home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustc-serialize-0.3.25/src/hex.rs:
+/home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rustc-serialize-0.3.25/src/json.rs:

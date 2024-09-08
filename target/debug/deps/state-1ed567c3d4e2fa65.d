@@ -1,0 +1,11 @@
+/workspaces/Rust-Simple-file-server/simple-file-server/target/debug/deps/libstate-1ed567c3d4e2fa65.rmeta: /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/lib.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/ident_hash.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/container.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/storage.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/init.rs
+
+/workspaces/Rust-Simple-file-server/simple-file-server/target/debug/deps/libstate-1ed567c3d4e2fa65.rlib: /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/lib.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/ident_hash.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/container.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/storage.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/init.rs
+
+/workspaces/Rust-Simple-file-server/simple-file-server/target/debug/deps/state-1ed567c3d4e2fa65.d: /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/lib.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/ident_hash.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/container.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/storage.rs /home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/init.rs
+
+/home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/lib.rs:
+/home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/ident_hash.rs:
+/home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/container.rs:
+/home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/storage.rs:
+/home/codespace/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.4.2/src/init.rs:
