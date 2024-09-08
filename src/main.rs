@@ -162,6 +162,7 @@ fn get_content_type(path: &Path) -> String {
         Some("txt") => "text/plain".to_string(),
         Some("png") => "image/png".to_string(),
         Some("jpg") | Some("jpeg") => "image/jpeg".to_string(),
+        Some("svg") => "image/svg+xml".to_string(),
         Some("mp4") => "video/mp4".to_string(),
         Some("mp3") => "audio/mpeg".to_string(),
         Some("json") => "application/json".to_string(),
