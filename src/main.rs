@@ -75,7 +75,7 @@ const FRAGMENT: &AsciiSet = &CONTROLS.add(b' ').add(b'"').add(b'#').add(b'<').ad
 
 fn generate_html_response(path: &str, stream: &mut std::net::TcpStream) -> std::io::Result<()> {
     let mut html = r#"
-<!DOCTYPE html>x
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
