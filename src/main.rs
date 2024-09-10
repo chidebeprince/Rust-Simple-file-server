@@ -1,4 +1,4 @@
-use std::fs;
+use std::{env, fs};
 use std::io::{Read, Write};
 use std::net::TcpListener;
 use std::path::Path;
@@ -25,6 +25,16 @@ fn handle_connection(mut stream: std::net::TcpStream) -> std::io::Result<()> {
     // Parse the request line (naive implementation, just to extract the path)
     let request_line = String::from_utf8_lossy(&buffer);
     let path = decode_url(&parse_path(&request_line));
+    println!("Request Path: {}", parse_path(&request_line)); // Raw path from the request
+    println!("Decoded Path: {}", path);  
+
+    // Check if the request is for favicon.ico
+    if path == "/favicon.ico" {
+        let response = "HTTP/1.1 404 Not Found\r\n\r\n";
+        stream.write_all(response.as_bytes())?;
+        stream.flush()?;
+        return Ok(());
+    }
 
     // Prevent backtracking
     if !is_valid_path(&path)? {
@@ -66,7 +76,10 @@ fn is_valid_path(requested_path: &str) -> std::io::Result<bool> {
     
     let resource = rootcwd.join(&requested_path.trim_start_matches('/'));
     let resource_len = resource.canonicalize()?.components().count();
-
+    
+    println!("rootcwd: {}", rootcwd.display());
+    println!("resource: {}", resource.display());
+    
     Ok(rootcwd_len <= resource_len)
 }
 
@@ -83,19 +96,32 @@ fn generate_html_response(path: &str, stream: &mut std::net::TcpStream) -> std::
 <body>
 "#.to_string();
 
-    let base_path = Path::new(".").join(&path.trim_start_matches('/'));
-    println!("Attempting to access: {}", base_path.display());
+    // Define the root directory (absolute path to the files directory)
+    let root_dir = Path::new(".");
 
+    // Join the requested path with the root directory
+    let base_path = root_dir.join(path.trim_start_matches('/'));
+    println!("Base Path: {:?}", base_path);
+    
+    // Check if the file or directory exists
+    if !base_path.exists() {
+        println!("Error: File or directory does not exist: {}", base_path.display());
+        let response = "HTTP/1.1 404 Not Found\r\n\r\nFile not found.";
+        stream.write_all(response.as_bytes())?;
+        return Ok(());
+    }
 
-    // Traversing directories
+    // Handle directory traversal
     if base_path.is_dir() {
         html.push_str(&format!("<h1>Currently in {}</h1>", base_path.display()));
+        html.push_str("<ul>");
 
         // Allow going to the parent directory
         if let Some(parent) = base_path.parent() {
+            let parent_path = parent.strip_prefix(root_dir).unwrap_or(parent);
             html.push_str(&format!(
                 "<li><a href=\"{}\">Parent Directory</a></li>",
-                utf8_percent_encode(parent.to_string_lossy().as_ref(), FRAGMENT)
+                utf8_percent_encode(parent_path.to_string_lossy().as_ref(), FRAGMENT)
             ));
         }
 
@@ -103,13 +129,14 @@ fn generate_html_response(path: &str, stream: &mut std::net::TcpStream) -> std::
         for entry in WalkDir::new(&base_path).max_depth(1) {
             let entry = entry?;
             let file_name = entry.file_name().to_string_lossy();
+            let file_path = entry.path().strip_prefix(root_dir).unwrap_or(entry.path());
             
             // Use `utf8_percent_encode` to encode file paths
-            let file_path = utf8_percent_encode(&entry.path().to_string_lossy(), FRAGMENT).to_string();
+            let encoded_path = utf8_percent_encode(file_path.to_string_lossy().as_ref(), FRAGMENT).to_string();
 
             html.push_str(&format!(
                 "<li><a href=\"{}\">{}</a></li>",
-                file_path, file_name
+                encoded_path, file_name
             ));
         }
 
@@ -124,14 +151,15 @@ fn generate_html_response(path: &str, stream: &mut std::net::TcpStream) -> std::
         stream.write_all(response.as_bytes())?;
         stream.flush()?;
     } else {
-        // Reading files and handling content-type
+        // Handle file serving
         let content_type = get_content_type(&base_path);
+        println!("Serving file with content type: {}", content_type);
 
-        // Serve file content with correct Content-Type
+        // Serve file content
         let mut file_content = Vec::new();
         fs::File::open(&base_path)?.read_to_end(&mut file_content)?;
 
-        // Return the HTTP response for a file
+        // Return the HTTP response for the file
         let response = format!(
             "HTTP/1.1 200 OK\r\nContent-Type: {}\r\n\r\n",
             content_type
@@ -148,6 +176,7 @@ fn generate_html_response(path: &str, stream: &mut std::net::TcpStream) -> std::
 
 
 fn get_content_type(path: &Path) -> String {
+    println!("Attempting to access: {}", path.display());
     // Use the `infer` crate to detect the file type
     if let Ok(mut file) = fs::File::open(path) {
         let mut buffer = [0u8; 512];
