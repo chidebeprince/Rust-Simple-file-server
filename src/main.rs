@@ -7,8 +7,9 @@ use walkdir::WalkDir;
 
 fn main() -> std::io::Result<()> {
     // Specify the local directory to serve
-    // Here:                                 👇🏾👇🏾👇🏾👇🏾👇🏾👇🏾👇🏾👇🏾👇🏾
-    let local_directory = Path::new(r"/workspaces/Rust-Simple-file-server");  // or specify a directory like PathBuf::from("/path/to/directory")
+    // "C:\\" and "/" are the roots for both windows and linux/MacOs respectively
+    // Here:                          👇🏾👇🏾👇🏾👇🏾👇🏾👇🏾👇🏾👇🏾👇🏾
+    let local_directory = Path::new(r"/workspaces/Rust-Simple-file-server");
     println!("Serving files from: {}", local_directory.display());
 
     // Bind the TCP listener to the address and port
@@ -103,37 +104,46 @@ fn generate_html_response(path: &str, base_directory: &Path, stream: &mut std::n
     if base_path.is_dir() {
         html.push_str(&format!("<h1>Currently in {}</h1>", base_path.display()));
 
-         // Always show "Up to previous directory" link
-         let mut parent_path = path.to_string();
-         if path != "/" {
-             if let Some(pos) = parent_path.rfind('/') {
-                 parent_path.truncate(pos);
-             }
-             if parent_path.is_empty() {
-                 parent_path = "/".to_string();
-             }
-             html.push_str(&format!(
-                 "<li><a href=\"{}\">Up to previous directory</a></li>",
-                 utf8_percent_encode(&parent_path, FRAGMENT)
-             ));
-         } else {
-             // In root directory, show "Up to previous directory" link pointing to root
-             html.push_str(&format!(
-                 "<li><a href=\"{}\">Up to previous directory</a></li>",
-                 utf8_percent_encode("/", FRAGMENT)
-             ));
-         }
+        // Always show "Up to previous directory" link
+        let mut parent_path = path.to_string();
+        if path != "/" {
+            if let Some(pos) = parent_path.rfind('/') {
+                parent_path.truncate(pos);
+            }
+            if parent_path.is_empty() {
+                parent_path = "/".to_string();
+            }
+            html.push_str(&format!(
+                "<li><a href=\"{}\">Up to previous directory</a></li>",
+                utf8_percent_encode(&parent_path, FRAGMENT)
+            ));
+        } else {
+            // In root directory, show "Up to previous directory" link pointing to root
+            html.push_str(&format!(
+                "<li><a href=\"{}\">Up to previous directory</a></li>",
+                utf8_percent_encode("/", FRAGMENT)
+            ));
+        }
 
         // List all files and directories
         html.push_str("<ul>");
         for entry in WalkDir::new(&base_path).max_depth(1) {
-            let entry = entry?;
+            let entry = match entry {
+                Ok(e) => e,
+                Err(e) => {
+                    eprintln!("Error reading directory entry: {}", e);
+                    continue; // Skip entry if there's an error
+                }
+            };
             let file_name = entry.file_name().to_string_lossy();
-            
+
             // Handle `strip_prefix` with explicit error handling
             let file_path = match entry.path().strip_prefix(base_directory) {
                 Ok(relative_path) => utf8_percent_encode(&relative_path.to_string_lossy(), FRAGMENT).to_string(),
-                Err(_) => continue,  // If we can't strip the prefix, skip this entry
+                Err(e) => {
+                    eprintln!("Error stripping prefix: {}", e);
+                    continue; // Skip this entry on error
+                }
             };
 
             // Add trailing slash for directories
@@ -155,28 +165,52 @@ fn generate_html_response(path: &str, base_directory: &Path, stream: &mut std::n
             html
         );
 
-        stream.write_all(response.as_bytes())?;
-        stream.flush()?;
+        // Gracefully handle potential errors when writing the response
+        if let Err(e) = stream.write_all(response.as_bytes()) {
+            eprintln!("Failed to write HTML response: {}", e);
+            return Err(e);  // Abort on write error
+        }
+        if let Err(e) = stream.flush() {
+            eprintln!("Failed to flush stream: {}", e);
+            return Err(e);  // Abort on flush error
+        }
     } else {
         // Reading files and handling content-type
         let content_type = get_content_type(&base_path);
 
         // Serve file content with correct Content-Type
         let mut file_content = Vec::new();
-        fs::File::open(&base_path)?.read_to_end(&mut file_content)?;
+        if let Err(e) = fs::File::open(&base_path)?.read_to_end(&mut file_content) {
+            eprintln!("Failed to read file {}: {}", base_path.display(), e);
+            return Err(e);  // Abort on file read error
+        }
 
         let response = format!(
             "HTTP/1.1 200 OK\r\nContent-Type: {}\r\n\r\n",
             content_type
         );
 
-        stream.write_all(response.as_bytes())?;
-        stream.write_all(&file_content)?;
-        stream.flush()?;
+        // Write header and handle errors
+        if let Err(e) = stream.write_all(response.as_bytes()) {
+            eprintln!("Failed to write file header: {}", e);
+            return Err(e);  // Abort on write error
+        }
+
+        // Write file content and handle errors
+        if let Err(e) = stream.write_all(&file_content) {
+            eprintln!("Failed to write file content: {}", e);
+            return Err(e);  // Abort on file write error
+        }
+
+        if let Err(e) = stream.flush() {
+            eprintln!("Failed to flush stream after writing file content: {}", e);
+            return Err(e);  // Abort on flush error
+        }
     }
 
     Ok(())
 }
+
 
 fn get_content_type(path: &Path) -> String {
     // Use the `infer` crate to detect the file type
@@ -201,6 +235,13 @@ fn get_content_type(path: &Path) -> String {
         Some("json") => "application/json".to_string(),
         Some("pdf") => "application/pdf".to_string(),
         Some("md") => "text/markdown".to_string(),
+        Some("zip") => "application/zip".to_string(),
+        Some("rs") => "text/plain".to_string(),
+        Some("toml") => "text/plain".to_string(),
+        Some("lock") => "text/plain".to_string(),
+        Some("TAG") => "text/plain".to_string(),
+        Some("HEAD") => "text/plain".to_string(),
+        Some("mov") => "video/mp4".to_string(),
         _ => "application/octet-stream".to_string(),  // Default to binary if unknown
     }
 }
