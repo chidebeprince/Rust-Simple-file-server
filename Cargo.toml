@@ -7,4 +7,4 @@ edition = "2021"
 [dependencies]
 walkdir = "2.3"
 infer = "0.10"
-percent-encoding = "2.1"
+url-escape = "0.1.1"
